@@ -59,7 +59,7 @@ const ProductApproval = () => {
         console.log("Products: ", response.data)
         const productData = response.data.map((product) =>
           createData(
-            product.name,
+            product.productName,
             product.userUsername,
             product.productCode,
             product.category,
