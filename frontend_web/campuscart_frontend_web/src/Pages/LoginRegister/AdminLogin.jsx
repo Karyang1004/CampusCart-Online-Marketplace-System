@@ -32,7 +32,10 @@ const AdminLogin = () => {
         }
   
         try {
-            const response = await axios.post('http://localhost:8080/api/admin/login', credentials);
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/admin/login`,
+                credentials
+            );
             const userData = response.data;
 
             // Add role to userData

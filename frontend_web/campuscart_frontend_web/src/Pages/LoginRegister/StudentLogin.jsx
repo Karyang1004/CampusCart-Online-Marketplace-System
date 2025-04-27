@@ -35,11 +35,14 @@ const StudentLogin = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/api/user/login', credentials);
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/user/login`,
+                credentials
+            );
+
             const userData = response.data;
 
             sessionStorage.setItem('token', userData.token);
-
 
             login(userData);
             setErrorMessage('');

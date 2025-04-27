@@ -25,7 +25,7 @@ import edu.cit.campuscart.entity.UserEntity;
 import edu.cit.campuscart.service.AdminService;
 import edu.cit.campuscart.util.JwtUtil;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = { "http://localhost:3000", "https://campuscartonlinemarketplace.vercel.app/" })
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
