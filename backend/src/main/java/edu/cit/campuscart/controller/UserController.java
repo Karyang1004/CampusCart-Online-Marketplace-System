@@ -43,6 +43,11 @@ public class UserController {
 	
 	private static final String UPLOAD_DIR = System.getProperty("user.home") + "/Downloads/uploads";
 	
+	  @GetMapping("/test")
+  	public String test() {
+      return "Backend is working!";
+  	}
+
 	//CREATE
 	@PostMapping("/postUserRecord")
 	public ResponseEntity<?> postUserRecord(@RequestBody UserEntity user) throws NameAlreadyBoundException {
