@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**") // Allow all paths
                 .allowedOrigins(
                     "http://localhost:3000",
-                    "https://*.vercel.app"  // Allow all Vercel deployments
+                    "https://campuscartonlinemarketplace.vercel.app"  // Allow all Vercel deployments
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")

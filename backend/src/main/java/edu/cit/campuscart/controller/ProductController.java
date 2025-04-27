@@ -35,7 +35,7 @@ import edu.cit.campuscart.service.ProductService;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@CrossOrigin(origins = { "http://localhost:3000", "https://campuscartonlinemarketplace.vercel.app/" })
+//@CrossOrigin(origins = { "http://localhost:3000", "https://campuscartonlinemarketplace.vercel.app" })
 @RestController
 @RequestMapping(method = RequestMethod.GET, path = "/api/product")
 public class ProductController {

@@ -34,7 +34,7 @@ import edu.cit.campuscart.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = { "http://localhost:3000", "https://campuscartonlinemarketplace.vercel.app/" })  // Allow CORS from React app
+//@CrossOrigin(origins = { "http://localhost:3000", "https://campuscartonlinemarketplace.vercel.app" })  // Allow CORS from React app
 public class UserController {
 	@Autowired
 	private UserService userService;
