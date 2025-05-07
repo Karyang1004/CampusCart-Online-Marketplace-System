@@ -61,7 +61,6 @@ public class ProductController {
 				Map<String, Object> productData = new HashMap<>();
 				productData.put("code", product.getCode());
 				productData.put("name", product.getName());
-				productData.put("qtyInStock", product.getQtyInStock());
 				productData.put("pdtDescription", product.getPdtDescription());
 				productData.put("conditionType", product.getConditionType());
 				productData.put("status", product.getStatus());
@@ -274,7 +273,6 @@ public class ProductController {
 			response.put("feedback", product.getFeedback());
 	        response.put("buyPrice", product.getBuyPrice());
 	        response.put("category", product.getCategory());
-	        response.put("qtyInStock", product.getQtyInStock());
 	        response.put("imagePath", product.getImagePath());
 
 	        // Include user's information

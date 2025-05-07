@@ -1,7 +1,5 @@
 package edu.cit.campuscart.entity;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -22,7 +20,6 @@ public class ProductEntity {
     private int code;
     private String name;
     private String pdtDescription;
-    private int qtyInStock;
     private float buyPrice;
     private String imagePath;  
     private String category;
@@ -32,7 +29,6 @@ public class ProductEntity {
     
     @Column(name = "feedback", length = 1000, columnDefinition = "TEXT")
     private String feedback;
-    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_username", nullable = false)
@@ -43,12 +39,11 @@ public class ProductEntity {
         super();
     }
 
-    public ProductEntity(int code, String name, String pdtDescription, int qtyInStock, float buyPrice, String imagePath, String category, String status, String conditionType, String feedback, UserEntity user) {
+    public ProductEntity(int code, String name, String pdtDescription, float buyPrice, String imagePath, String category, String status, String conditionType, String feedback, UserEntity user) {
         super();
         this.code = code;
         this.name = name;
         this.pdtDescription = pdtDescription;
-        this.qtyInStock = qtyInStock;
         this.buyPrice = buyPrice;
         this.imagePath = imagePath;
         this.category = category;
@@ -80,14 +75,6 @@ public class ProductEntity {
 
     public void setPdtDescription(String pdtDescription) {
         this.pdtDescription = pdtDescription;
-    }
-
-    public int getQtyInStock() {
-        return qtyInStock;
-    }
-
-    public void setQtyInStock(int qtyInStock) {
-        this.qtyInStock = qtyInStock;
     }
 
     public float getBuyPrice() {
