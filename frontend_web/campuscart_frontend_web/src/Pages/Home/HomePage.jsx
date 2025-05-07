@@ -276,7 +276,7 @@ function HomePage() {
                   {/* Product Image */}
                   <CardMedia
                     component="img"
-                    image={`http://localhost:8080/${product.imagePath}`}
+                    image={`https://campuscart-online-marketplace-system-production.up.railway.app/${product.imagePath}`}
                     alt={product.name}
                     sx={{
                       width: "100%",

@@ -164,7 +164,7 @@ const MarketplaceHeader = () => {
                 const { profilePhoto } = response.data;
 
                 if (profilePhoto) {
-                    setProfilePhoto(`http://localhost:8080/uploads/${profilePhoto}`);
+                    setProfilePhoto(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);
                 }
             }
         } catch (error) {

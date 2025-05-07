@@ -625,7 +625,7 @@ const ManageProducts = () => {
                 <TableCell sx={{ py: 1 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <img
-                      src={`http://localhost:8080/${item.product.imagePath}`}
+                      src={`https://campuscart-online-marketplace-system-production.up.railway.app/${item.product.imagePath}`}
                       alt={item.product.name}
                       style={{ width: 50, height: 50, objectFit: 'cover' }}
                     />

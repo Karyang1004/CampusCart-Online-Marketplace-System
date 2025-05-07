@@ -4,6 +4,7 @@ import { Box, InputBase, Button, Typography, Grid, Card, CardMedia, CardContent,
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from 'axios';
+import api from '../../config/axiosConfig';
 
 const Bookmarks = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Bookmarks = () => {
       const likedProductIds = JSON.parse(localStorage.getItem('likedProducts')) || [];
 
       try {
-        const response = await axios.get(`http://localhost:8080/api/product/getAllProducts/${loggedInUser}`);
+        const response = await api.get(`/product/getAllProducts/${loggedInUser}`);
         const allProducts = response.data;
 
         const liked = allProducts.filter((product) => likedProductIds.includes(product.code));
@@ -140,7 +141,7 @@ const Bookmarks = () => {
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', margin: '5px', color: 'gray', padding: '10px' }}>
-                <Avatar src={`http://localhost:8080/${product.sellerProfileImage}`} />
+                <Avatar src={`https://campuscart-online-marketplace-system-production.up.railway.app/${product.sellerProfileImage}`} />
                 <Box sx={{ ml: 1 }}>
                   <Typography variant="subtitle1" color="black" sx={{ lineHeight: 1, mb: 0, fontWeight: 500 }}>
                     {product.sellerUsername}
@@ -153,7 +154,7 @@ const Bookmarks = () => {
               <CardMedia
                 component="img"
                 height="140"
-                image={`http://localhost:8080/${product.imagePath}`}
+                image={`https://campuscart-online-marketplace-system-production.up.railway.app/${product.imagePath}`}
                 alt={product.name}
                 onError={(e) => {
                   e.target.onerror = null;

@@ -29,7 +29,7 @@ const createData = (productName, user, productCode, category, status, image, fee
     return status;
   };
 
-  const imageUrl = image ? `http://localhost:8080/${image}` : null;
+  const imageUrl = image ? `https://campuscart-online-marketplace-system-production.up.railway.app/${image}` : null;
 
   return { productName, user, productCode, category, status: formatStatus(status), image: imageUrl, feedback, description };
 };

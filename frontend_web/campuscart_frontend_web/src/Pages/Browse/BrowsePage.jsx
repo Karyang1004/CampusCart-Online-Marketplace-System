@@ -181,7 +181,7 @@ const BrowsePage = () => {
             setLoading(true);
             try {
                 const response = await api.get(
-                    `http://localhost:8080/api/product/getAllProductsFilter/${loggedInUser}`,
+                    `/product/getAllProductsFilter/${loggedInUser}`,
                     {
                         params: {
                             username: loggedInUser,
@@ -478,7 +478,7 @@ const BrowsePage = () => {
                                     }}>
                                         <Avatar
                                             src={!imageErrors[product.code] && product.userProfileImagePath ?
-                                                `http://localhost:8080/uploads/${product.userProfileImagePath}` :
+                                                `https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${product.userProfileImagePath}` :
                                                 `https://ui-avatars.com/api/?name=${product.userUsername}&background=89343b&color=fff`
                                             }
                                             alt={product.userUsername}
@@ -521,7 +521,7 @@ const BrowsePage = () => {
                                     }}>
                                         <CardMedia
                                             component="img"
-                                            image={`http://localhost:8080/${product.imagePath}`}
+                                            image={`https://campuscart-online-marketplace-system-production.up.railway.app/${product.imagePath}`}
                                             alt={product.name}
                                             sx={{
                                                 height: '100%',

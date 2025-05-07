@@ -85,7 +85,7 @@ const Dashboard = () => {
             status: item.status === 'approved' ? 'Approved' : 
                    item.status === 'rejected' ? 'Rejected' : 
                    item.status === 'Available' ? 'Pending' : item.status,
-            imagePath: item.product?.imagePath ? `http://localhost:8080/${item.product.imagePath}` : null
+            imagePath: item.product?.imagePath ? `https://campuscart-online-marketplace-system-production.up.railway.app/${item.product.imagePath}` : null
           }));
 
         console.log('Mapped recent products:', recentProducts);

@@ -84,7 +84,7 @@ const AdminSettings = () => {
 
       if (response.status === 200) {
         showToast('Profile picture updated successfully!', 'success');
-        setPreviewImage(`http://localhost:8080/uploads/${response.data.fileName}`);
+        setPreviewImage(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${response.data.fileName}`);
       }
     } catch (error) {
       console.error('Error uploading profile photo: ', error);
@@ -203,7 +203,7 @@ const AdminSettings = () => {
                 setContactNo(contactNo);
 
                 if (profilePhoto) {
-                  setPreviewImage(`http://localhost:8080/uploads/${profilePhoto}`);
+                  setPreviewImage(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);
               }
             }
         } catch (error) {

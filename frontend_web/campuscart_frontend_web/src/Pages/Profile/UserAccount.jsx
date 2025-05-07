@@ -282,7 +282,7 @@ const UserAccount = (props) => {
 
             if (response.status === 200) {
                 toast.success('Profile picture updated successfully');
-                setPreviewImage(`http://localhost:8080/uploads/${response.data.fileName}`);
+                setPreviewImage(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${response.data.fileName}`);
             }
         } catch (error) {
             console.error('Error uploading profile photo: ', error);
@@ -312,7 +312,7 @@ const UserAccount = (props) => {
                     setIsGoogleUser(!!googleId);
 
                     if (profilePhoto) {
-                        setPreviewImage(`http://localhost:8080/uploads/${profilePhoto}`);
+                        setPreviewImage(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);
                     }
                 }
             } catch (error) {

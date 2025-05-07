@@ -49,7 +49,7 @@ const ViewProductAdmin = ({ open, onClose, product }) => {
             }}>
               {productDetails.imagePath ? (
                 <img
-                  src={`http://localhost:8080/${productDetails.imagePath}`}
+                  src={`https://campuscart-online-marketplace-system-production.up.railway.app/${productDetails.imagePath}`}
                   alt={productDetails.name}
                   style={{
                     width: '100%',

@@ -208,7 +208,7 @@ const ViewProduct = () => {
                     <CardMedia
                         component="img"
                         alt={product.name}
-                        image={`http://localhost:8080/${product.imagePath}`}
+                        image={`https://campuscart-online-marketplace-system-production.up.railway.app/${product.imagePath}`}
                         sx={{
                             width: '100%',
                             height: '100%',
@@ -263,7 +263,7 @@ const ViewProduct = () => {
                             }}>
                                 <Avatar
                                     src={!imageError && product.userProfileImagePath ?
-                                        `http://localhost:8080/uploads/${product.userProfileImagePath}` :
+                                        `https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${product.userProfileImagePath}` :
                                         `https://ui-avatars.com/api/?name=${product.userUsername}&background=89343b&color=fff`
                                     }
                                     alt={product.userUsername}
