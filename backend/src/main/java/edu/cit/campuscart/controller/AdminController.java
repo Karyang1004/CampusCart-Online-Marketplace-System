@@ -199,7 +199,7 @@ public class AdminController {
     @DeleteMapping("/users/{username}")
     public ResponseEntity<String> deleteUser(@PathVariable String username) {
         try {
-            String message = adminService.deleteUser(username);
+            String message = adminService.deleteSeller(username);
             return new ResponseEntity<>(message, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

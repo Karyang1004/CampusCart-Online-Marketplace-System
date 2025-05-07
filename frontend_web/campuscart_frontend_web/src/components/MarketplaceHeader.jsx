@@ -12,6 +12,7 @@ import AddProductForm from '../Pages/Sell/AddProductForm'
 import toast from 'react-hot-toast';
 import logoWithText from '../assets/img/logo-with-text.png';
 import api from '../config/axiosConfig';
+import { useLoading } from '../contexts/LoadingContext';
 
 
 const MarketplaceHeader = () => {
@@ -22,54 +23,11 @@ const MarketplaceHeader = () => {
   const [anchor, setAnchor] = React.useState(null);
   const open = Boolean(anchor);
   const username = sessionStorage.getItem('username');
+  const { setLoading } = useLoading();
   const [profilePhoto, setProfilePhoto] = useState(''); 
   const [notificationAnchor, setNotificationAnchor] = useState(null);
-  const [notifications, setNotifications] = useState([
-    { 
-      id: 1, 
-      title: 'New Message',
-      content: 'You have a new message from seller',
-      time: '2 minutes ago', 
-      read: false 
-    },
-    { 
-      id: 2, 
-      title: 'Product Liked',
-      content: 'Someone liked your iPhone 15 Pro',
-      time: '1 hour ago', 
-      read: false 
-    },
-    { 
-      id: 3, 
-      title: 'Product Approved',
-      content: 'Your product "MacBook Pro" has been approved',
-      time: '3 hours ago', 
-      read: true 
-    },
-    { 
-      id: 4, 
-      title: 'New Review',
-      content: 'A buyer left a 5-star review on your Samsung Galaxy S23',
-      time: '5 hours ago', 
-      read: true 
-    },
-    { 
-      id: 5, 
-      title: 'Similar Product',
-      content: 'A similar product to your "iPad Pro" was recently listed',
-      time: '1 day ago', 
-      read: true 
-    },
-    { 
-      id: 6, 
-      title: 'Account Security',
-      content: 'New login detected from Chrome on Windows',
-      time: '2 days ago', 
-      read: true 
-    }
-  ]);
+  const [notifications, setNotifications] = useState([]);
   const [unreadMessageCount, setUnreadMessageCount] = useState(0);
-  const loggedInUsername = sessionStorage.getItem('username');
 
   const handleClick = (event) => {
     setAnchor(event.currentTarget);
@@ -89,7 +47,7 @@ const MarketplaceHeader = () => {
   };
 
   const handleMessageClick = () => {
-    navigate('/message');
+    navigate('/messages');
   };
   
   const handleAddNewProduct = () => {
@@ -112,10 +70,44 @@ const MarketplaceHeader = () => {
     setNotificationAnchor(null);
   };
 
-  const handleMarkAllAsRead = () => {
+  const fetchNotifications = async () => {
+    try {
+      const response = await api.get(`/notifications/user/${username}`);
+      if (response.status === 200) {
+        const formattedNotifications = response.data.map(notification => ({
+          id: notification.id,
+          title: notification.type === 'info' ? 'Product Approved' : 'Product Rejected',
+          content: notification.message,
+          time: new Date(notification.timestamp).toLocaleString(),
+          read: notification.isRead
+        }));
+        setNotifications(formattedNotifications);
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (username) {
+      fetchNotifications();
+      // Set up polling for new notifications every 30 seconds
+      const interval = setInterval(fetchNotifications, 3600000);
+      return () => clearInterval(interval);
+    }
+  }, [username]);
+
+  const handleMarkAllAsRead = async () => {
     if (notifications.some(n => !n.read)) {
-      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-      toast.success('All notifications marked as read');
+      try {
+        const token = sessionStorage.getItem('token');
+        await api.put(`/notifications/markAllAsRead/${username}`);
+        setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+        toast.success('All notifications marked as read');
+      } catch (error) {
+        console.error('Error marking notifications as read:', error);
+        toast.error('Failed to mark notifications as read');
+      }
     } else {
       toast.error('No unread notifications');
     }
@@ -147,7 +139,7 @@ const MarketplaceHeader = () => {
       case location.pathname === '/sell' || location.pathname === '/addnewproduct' || /^\/sell\/product\/\d+$/.test(location.pathname):
         setActiveButton('Sell');
         break;
-      case location.pathname === '/message':
+      case location.pathname === '/messages':
         setActiveButton('Message');
         break;
       case location.pathname === '/profile':
@@ -160,7 +152,12 @@ const MarketplaceHeader = () => {
 
   useEffect(() => {
     const fetchProfileData = async () => {
-        const username = sessionStorage.getItem('username');
+        if (!username) {
+            setLoading(false);
+            return;
+        }
+        
+        setLoading(true);
         try {
             const response = await api.get(`/user/getUserRecord/${username}`);
             if (response.status === 200) {
@@ -172,11 +169,26 @@ const MarketplaceHeader = () => {
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
+        } finally {
+            setLoading(false); 
         }
     };
 
     fetchProfileData();
-}, []);
+}, [username]);
+
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      if (!username) return;
+      try {
+        const response = await api.get(`/messages/unread/count/${username}`);
+        setUnreadMessageCount(response.data);
+      } catch (error) {
+        setUnreadMessageCount(0);
+      }
+    };
+    fetchUnreadCount();
+  }, [username]);
 
   const handleButtonClick = (label) => {
     setActiveButton(label);
@@ -192,7 +204,7 @@ const MarketplaceHeader = () => {
         navigate('/sell');
         break;
       case 'Message':
-        navigate('/message');
+        navigate('/messages');
         break;
       case 'Profile':
         navigate('/profile');
@@ -525,7 +537,10 @@ const MarketplaceHeader = () => {
                   key={notification.id}
                   onClick={() => {
                     handleNotificationClose();
-                    navigate('/notifications');
+                    // Navigate to appropriate page based on notification type
+                    if (notification.type === 'info' || notification.type === 'rejection') {
+                      navigate('/profile');
+                    }
                   }}
                   sx={{
                     py: 1.5,
@@ -578,7 +593,7 @@ const MarketplaceHeader = () => {
           <MenuItem
             onClick={() => {
               handleNotificationClose();
-              navigate('/notifications');
+              navigate('/profile');
             }}
             sx={{
               justifyContent: 'center',

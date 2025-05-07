@@ -26,7 +26,7 @@ const GoogleSignIn = () => {
             if (response.data && response.data.token) {
                 // Clear any existing session data
                 sessionStorage.clear();
-                
+
                 // Store the new token and user data
                 sessionStorage.setItem('token', response.data.token);
                 sessionStorage.setItem('username', response.data.username);
@@ -34,10 +34,10 @@ const GoogleSignIn = () => {
                 sessionStorage.setItem('firstName', response.data.firstName);
                 sessionStorage.setItem('lastName', response.data.lastName);
                 sessionStorage.setItem('role', 'USER');
-                
+
                 // Log the stored token for verification
                 console.log('Stored token:', response.data.token);
-                
+
                 toast.success('Successfully logged in with Google!');
                 navigate('/home');
             } else {
@@ -50,8 +50,8 @@ const GoogleSignIn = () => {
     };
 
     return (
-        <Box 
-            sx={{ 
+        <Box
+            sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -74,29 +74,13 @@ const GoogleSignIn = () => {
                 </Typography>
                 <Divider sx={{ flex: 1, borderColor: 'rgba(0, 0, 0, 0.12)' }} />
             </Box>
-            
+
             <Box
                 sx={{
                     width: '100%',
-                    '& > div': {
-                        width: '100% !important',
-                        display: 'flex !important',
-                        justifyContent: 'center !important',
-                    },
-                    '& > div > div': {
-                        width: '100% !important',
-                        display: 'flex !important',
-                        justifyContent: 'center !important',
-                        '& > div': {
-                            width: '100% !important',
-                            maxWidth: 'none !important'
-                        }
-                    },
-                    '& iframe': {
-                        scale: '1.2 !important',
-                        marginTop: '4px !important',
-                        marginBottom: '4px !important'
-                    }
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                 }}
             >
                 <GoogleLogin
@@ -109,7 +93,6 @@ const GoogleSignIn = () => {
                     size="large"
                     text="continue_with"
                     shape="rectangular"
-                    width="100%"
                 />
             </Box>
         </Box>
@@ -117,4 +100,3 @@ const GoogleSignIn = () => {
 };
 
 export default GoogleSignIn;
-

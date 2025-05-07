@@ -16,18 +16,22 @@ import {
 import { Person, Lock } from '@mui/icons-material';
 import logo from '../../assets/img/logo-text.png';
 import cit from '../../assets/img/cit-1.jpg';
+import { useLoading } from '../../contexts/LoadingContext';
 
 const AdminLogin = () => {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
+    const { setLoading } = useLoading();
 
     const handleLogin = async (e) => {
+        setLoading(true);
         e.preventDefault();
 
         if (!credentials.username || !credentials.password) {
             setErrorMessage('Please enter username and password');
+            setLoading(false);
             return;
         }
   
@@ -48,6 +52,8 @@ const AdminLogin = () => {
         } catch (error) {
             setErrorMessage('Invalid username or password');
             console.error('Error logging in: ', error);
+        } finally {
+            setLoading(false); 
         }
     };
 
@@ -208,4 +214,3 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
-

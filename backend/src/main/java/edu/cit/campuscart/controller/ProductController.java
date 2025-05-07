@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -226,7 +225,7 @@ public class ProductController {
 		
 	@PostMapping("/postproduct")
 	public ResponseEntity<String> postProduct(@RequestParam("name") String name,
-			@RequestParam("pdtDescription") String description, @RequestParam("qtyInStock") int quantity,
+			@RequestParam("pdtDescription") String description,
 			@RequestParam("buyPrice") float price, @RequestParam("image") MultipartFile image,
 			@RequestParam("category") String category, @RequestParam("status") String status,
 			@RequestParam("conditionType") String conditionType,
@@ -248,7 +247,7 @@ public class ProductController {
 
 		// Call the service method to save product with associated user
 		try {
-			pserv.postProduct(name, description, quantity, price, imagePath, category, status, conditionType,
+			pserv.postProduct(name, description, price, imagePath, category, status, conditionType,
 					userUsername);
 		} catch (NoSuchElementException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

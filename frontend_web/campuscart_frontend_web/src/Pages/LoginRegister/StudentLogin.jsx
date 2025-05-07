@@ -18,19 +18,23 @@ import { Person, Lock } from '@mui/icons-material';
 import logo from '../../assets/img/logo-text.png';
 import cit from '../../assets/img/cit-1.jpg';
 import GoogleSignIn from '../../components/GoogleSignIn';
+import { useLoading } from '../../contexts/LoadingContext';
 
 const StudentLogin = () => {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
+    const { setLoading } = useLoading();
 
     //for custom login
     const handleLogin = async (e) => {
+        setLoading(true);
         e.preventDefault();
 
         if (!credentials.username || !credentials.password) {
             setErrorMessage('Please enter username and password');
+            setLoading(false);
             return;
         }
 
@@ -39,10 +43,10 @@ const StudentLogin = () => {
                 `${process.env.REACT_APP_API_URL}/user/login`,
                 credentials
             );
-
             const userData = response.data;
 
             sessionStorage.setItem('token', userData.token);
+
 
             login(userData);
             setErrorMessage('');
@@ -50,6 +54,8 @@ const StudentLogin = () => {
         } catch (error) {
             setErrorMessage('Invalid username or password');
             console.error('Error logging in: ', error);
+        } finally {
+            setLoading(false); 
         }
     };
 
@@ -235,4 +241,3 @@ const StudentLogin = () => {
 };
 
 export default StudentLogin;
-
