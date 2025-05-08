@@ -27,6 +27,7 @@ const AddAdminModal = ({ open, onClose, onAdd }) => {
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
   const [toasts, setToasts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -71,7 +72,9 @@ const AddAdminModal = ({ open, onClose, onAdd }) => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (!validateForm()) {
+      setIsLoading(false);
       return;
     }
 
@@ -111,6 +114,8 @@ const AddAdminModal = ({ open, onClose, onAdd }) => {
         error.response?.data?.error || 
         'Failed to add admin. Please try again.'
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -262,7 +267,7 @@ const AddAdminModal = ({ open, onClose, onAdd }) => {
             ml: 2
           }}
         >
-          Add Admin
+          {isLoading ? 'Loading...' : 'Add Admin'}
         </Button>
       </DialogActions>
       <ToastManager toasts={toasts} handleClose={(id) => {

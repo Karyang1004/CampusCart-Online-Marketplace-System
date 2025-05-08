@@ -28,6 +28,7 @@ const AddUserModal = ({ open, onClose, onAdd }) => {
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
   const [toasts, setToasts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -76,7 +77,9 @@ const AddUserModal = ({ open, onClose, onAdd }) => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (!validateForm()) {
+      setIsLoading(false);
       return;
     }
 
@@ -109,6 +112,8 @@ const AddUserModal = ({ open, onClose, onAdd }) => {
     } catch (error) {
       setSubmitError(error.response?.data?.message || 'Failed to add seller. Please try again.');
       showToast(error.response?.data?.message || 'Failed to add seller. Please try again.', 'error');
+    } finally {
+      setIsLoading(true);
     }
   };
 
@@ -273,7 +278,7 @@ const AddUserModal = ({ open, onClose, onAdd }) => {
             ml: 2
           }}
         >
-          Add Seller
+          {isLoading ? 'Loading...' : 'Add Seller'}
         </Button>
       </DialogActions>
       <ToastManager toasts={toasts} handleClose={(id) => {

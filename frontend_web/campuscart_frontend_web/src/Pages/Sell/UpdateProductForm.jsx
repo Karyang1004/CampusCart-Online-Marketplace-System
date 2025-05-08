@@ -23,6 +23,7 @@ const UpdateProductForm = ({ product, onUpdateSuccess, setProduct }) => {
   const [originalValues, setOriginalValues] = useState({});
   const navigate = useNavigate();
   const { setLoading } = useLoading();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setProductName(product.name || '');
@@ -65,12 +66,13 @@ const UpdateProductForm = ({ product, onUpdateSuccess, setProduct }) => {
   }, [imagePreview]);
 
   const handleSubmit = async (e) => {
-    setLoading(true);
+    setIsLoading(true);
     e.preventDefault();
 
     // Validate negative numbers
     if (Number(price) <= 0) {
       toast.error('Price must be greater than 0');
+      setIsLoading(false);
       return;
     }
 
@@ -153,7 +155,7 @@ const UpdateProductForm = ({ product, onUpdateSuccess, setProduct }) => {
       console.error('Error updating product:', error);
       toast.error(error.response?.data?.message || 'Failed to update product');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -333,7 +335,7 @@ const UpdateProductForm = ({ product, onUpdateSuccess, setProduct }) => {
           </FormControl>
         </Box>
 
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr' }, gap: 2 }}>
         {product.status === 'Rejected' ? (
             <TextField
               label="Status"
@@ -472,6 +474,7 @@ const UpdateProductForm = ({ product, onUpdateSuccess, setProduct }) => {
           type="submit"
           variant="contained"
           fullWidth
+          disabled={isLoading}
           sx={{ 
             mt: 3, 
             mb: 2,
@@ -485,7 +488,7 @@ const UpdateProductForm = ({ product, onUpdateSuccess, setProduct }) => {
             transition: 'all 0.3s ease',
           }}
         >
-          Update Product
+          {isLoading ? 'Loading...' : 'Update Product'}
         </Button>
       </Box>
     </Box>

@@ -30,6 +30,7 @@ const AddProductForm = ({ open, handleClose }) => {
   });
   const [status, setStatus] = useState('Pending');
   const { setLoading } = useLoading();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -55,12 +56,13 @@ const AddProductForm = ({ open, handleClose }) => {
   };
 
   const handleSubmit = async (e) => {
-    setLoading(true);
+    setIsLoading(true);
     e.preventDefault();
 
     // Validate negative numbers
     if (Number(price) <= 0) {
       toast.error('Price must be greater than 0');
+      setIsLoading(false);
       return;
     }
 
@@ -69,6 +71,7 @@ const AddProductForm = ({ open, handleClose }) => {
         setImageError(true);
       }
       toast.error('All fields must be filled in');
+      setIsLoading(false);
       return;
     }
 
@@ -90,6 +93,7 @@ const AddProductForm = ({ open, handleClose }) => {
         message: 'No image selected',
         severity: 'error'
       });
+      setIsLoading(false);
       return;
     }
 
@@ -117,7 +121,7 @@ const AddProductForm = ({ open, handleClose }) => {
       console.error('Error adding product:', error);
       toast.error(error.response?.data?.message || 'Failed to add product');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -467,6 +471,7 @@ const AddProductForm = ({ open, handleClose }) => {
               type="submit"
               variant="contained"
               fullWidth
+              disabled={isLoading}
               sx={{
                 mt: 3,
                 mb: 2,
@@ -480,7 +485,7 @@ const AddProductForm = ({ open, handleClose }) => {
                 transition: 'all 0.3s ease',
               }}
             >
-              Add Product
+              {isLoading ? 'Loading...' : 'Submit'}
             </Button>
           </Box>
         </Box>

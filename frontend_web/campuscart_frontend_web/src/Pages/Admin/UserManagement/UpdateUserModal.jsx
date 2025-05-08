@@ -26,6 +26,7 @@ const UpdateUserModal = ({ open, onClose, user, onSave }) => {
   const [submitError, setSubmitError] = useState('');
   const [toasts, setToasts] = useState([]);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -104,11 +105,16 @@ const UpdateUserModal = ({ open, onClose, user, onSave }) => {
   };
 
   const handleSubmit = async () => {
-    if (!user) return;
+    setIsLoading(true);
+    if (!user) {
+      setIsLoading(false);
+      return;
+    }
 
     setSubmitError('');
 
     if (!validateForm()) {
+      setIsLoading(false);
       return;
     }
 
@@ -136,6 +142,8 @@ const UpdateUserModal = ({ open, onClose, user, onSave }) => {
     } catch (error) {
       console.error('Error updating user:', error);
       setSubmitError(error.response?.data?.message || 'Failed to update user. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -279,10 +287,14 @@ const UpdateUserModal = ({ open, onClose, user, onSave }) => {
               setConfirmOpen(false);
               handleSubmit();
             }}
-            color="primary"
             variant="contained"
+            sx={{
+              bgcolor: '#89343b',
+              '&:hover': { bgcolor: '#6d2931' },
+              ml: 2
+            }}
           >
-            Confirm
+            {isLoading ? 'Loading...' : 'Confirm'}
           </Button>
         </DialogActions>
       </Dialog>

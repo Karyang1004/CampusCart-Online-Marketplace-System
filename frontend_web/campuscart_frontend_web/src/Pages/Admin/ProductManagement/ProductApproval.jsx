@@ -51,6 +51,7 @@ const ProductApproval = () => {
   const [toasts, setToasts] = useState([]);
   const [openRejectDialog, setOpenRejectDialog] = useState(false);
   const [rejectFeedback, setRejectFeedback] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -94,21 +95,21 @@ const ProductApproval = () => {
   };
 
   const handleApproveInModal = async () => {
-    setLoading(true);
+    setIsLoading(true);
     if (selectedProduct) {
       await handleApprove(selectedProduct.productCode);
       handleCloseModal(); // Close modal after approval
     }
-    setLoading(false);
+    setIsLoading(false);
   };
 
   const handleRejectInModal = () => {
-    setLoading(true);
+    setIsLoading(true);
     if (selectedProduct) {
       setOpenModal(false); // Close the product details modal
       setOpenRejectDialog(true); // Open the rejection feedback dialog
     }
-    setLoading(false);
+    setIsLoading(false);
   };
 
   const updateSummary = (data) => { 
@@ -120,7 +121,7 @@ const ProductApproval = () => {
   };
 
   const handleApprove = async (productCode) => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       const response = await api.post('/product/approve', { productCode });
       showToast('Product approved successfully!', 'success');
@@ -137,14 +138,15 @@ const ProductApproval = () => {
     } catch (error) {
       showToast('Error approving product', 'error');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   const handleReject = async (productCode) => {
-    setLoading(true);
+    setIsLoading(true);
     if (!rejectFeedback.trim()) {
       showToast('Please provide feedback for rejection', 'error');
+      setIsLoading(false);
       return;
     }
 
@@ -170,15 +172,15 @@ const ProductApproval = () => {
     } catch (error) {
       showToast('Error rejecting product', 'error');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     } 
   };
 
   const handleRejectClick = (productCode) => {
-    setLoading(true);
+    setIsLoading(true);
     setSelectedProduct(products.find(p => p.productCode === productCode));
     setOpenRejectDialog(true);
-    setLoading(false);
+    setIsLoading(false);
   };
 
   const handleCloseRejectDialog = () => {
@@ -572,7 +574,7 @@ const ProductApproval = () => {
                         }
                       }}
                     >
-                      Approve
+                      {isLoading ? 'Loading...' : 'Approve'}
                     </Button>
                     <Button
                       variant="outlined"
@@ -592,7 +594,7 @@ const ProductApproval = () => {
                         }
                       }}
                     >
-                      Reject
+                    {isLoading ? 'Loading...' : 'Reject'}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -785,7 +787,7 @@ const ProductApproval = () => {
             sx={{ ml: 1 }}
             disabled={selectedProduct?.status === 'Approved' || selectedProduct?.status === 'Sold' || selectedProduct?.status === 'Rejected'}
           >
-            Approve
+          {isLoading ? 'Loading...' : 'Approve'}
           </Button>
           <Button
             onClick={handleRejectInModal}
@@ -794,7 +796,7 @@ const ProductApproval = () => {
             sx={{ ml: 1 }}
             disabled={selectedProduct?.status === 'Rejected' || selectedProduct?.status === 'Sold'}
           >
-            Reject
+            {isLoading ? 'Loading...' : 'Reject'}
           </Button>
         </DialogActions>
       </Dialog>
@@ -868,7 +870,7 @@ const ProductApproval = () => {
             sx={{ ml: 1 }}
             disabled={!rejectFeedback.trim()}
           >
-            Reject
+            {isLoading ? 'Loading...' : 'Reject'}
           </Button>
         </DialogActions>
       </Dialog>

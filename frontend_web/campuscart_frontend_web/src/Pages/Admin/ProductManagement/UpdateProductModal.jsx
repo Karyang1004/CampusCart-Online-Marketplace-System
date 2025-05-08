@@ -31,6 +31,7 @@ const UpdateProductModal = ({ open, onClose, product }) => {
   const [errors, setErrors] = useState({});
   const [toasts, setToasts] = useState([]);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (product) {
@@ -59,7 +60,9 @@ const UpdateProductModal = ({ open, onClose, product }) => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     setConfirmEditOpen(true);
+    setIsLoading(false);
   };
 
   const showToast = (message, severity = 'success') => {
@@ -267,6 +270,7 @@ const UpdateProductModal = ({ open, onClose, product }) => {
         // Call the actual API to submit the form after confirmation
         if (validateForm()) {
           try {
+            setIsLoading(true);
             const response = await api.put(
               `/admin/editproducts/${product.code}`,
               {
@@ -283,14 +287,20 @@ const UpdateProductModal = ({ open, onClose, product }) => {
             }
           } catch (error) {
             showToast(error.response?.data?.message || 'Error updating product', 'error');
+          } finally {
+            setIsLoading(false);
           }
         }
         setConfirmEditOpen(false);  // Close confirmation modal
       }}
-      color="primary"
       variant="contained"
+      sx={{
+        bgcolor: '#89343b',
+        '&:hover': { bgcolor: '#6d2931' },
+        ml: 2
+      }}
     >
-      Confirm
+      {isLoading ? 'Loading...' : 'Confirm'}
     </Button>
   </DialogActions>
 </Dialog>

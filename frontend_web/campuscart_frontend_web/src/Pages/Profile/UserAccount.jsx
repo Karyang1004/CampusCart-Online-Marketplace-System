@@ -61,7 +61,6 @@ const UserAccount = (props) => {
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
     const [isGoogleUser, setIsGoogleUser] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { setLoading } = useLoading();
 
@@ -193,38 +192,40 @@ const UserAccount = (props) => {
             !currentPassword
         ) {
             setErrorMessage('All fields are required. Please fill out the entire form.');
-            setIsLoading(false);
+            setLoading(false);
             return;
         }
 
         if (newPassword !== confirmPassword) {
             setErrorMessage('Password do not match.');
+            setLoading(false);
             return;
         }
 
         if (newPassword.length < 8) {
             setErrorMessage('Password must be at least 8 characters long.');
+            setLoading(false);
             return;
         }
 
         if (!/[A-Z]/.test(newPassword)) {
             setErrorMessage('Password must include at least one uppercase letter.');
-            setIsLoading(false);
+            setLoading(false);
             return;
         }
         if (!/[a-z]/.test(newPassword)) {
             setErrorMessage('Password must include at least one lowercase letter.');
-            setIsLoading(false);
+            setLoading(false);
             return;
         }
         if (!/[0-9]/.test(newPassword)) {
             setErrorMessage('Password must include at least one number.');
-            setIsLoading(false);
+            setLoading(false);
             return;
         }
         if (!/[^A-Za-z0-9]/.test(newPassword)) {
             setErrorMessage('Password must include at least one symbol.');
-            setIsLoading(false);
+            setLoading(false);
             return;
         }
 
