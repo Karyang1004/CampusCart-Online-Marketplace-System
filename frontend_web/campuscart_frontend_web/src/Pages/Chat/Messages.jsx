@@ -93,9 +93,10 @@ const Messages = () => {
     const currentUser = sessionStorage.getItem('username');
     const { setLoading } = useLoading();
     const [isSending, setIsSending] = useState(false);
+    const [conversationsloading, setConversationsLoading] = useState(true);
 
     useEffect(() => {
-        setLoading(true);
+        setConversationsLoading(true);
 
         if (!currentUser) {
             navigate('/login');
@@ -111,7 +112,7 @@ const Messages = () => {
             fetchConversation(currentUser, seller, productCode);
         }
 
-        setLoading(false);
+        setConversationsLoading(false);
     }, [currentUser, location.search]);
 
     const fetchConversations = async () => {
@@ -203,6 +204,19 @@ const Messages = () => {
             sendMessage();
         }
     };
+
+    if (conversationsloading) {
+        return (
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+            }}>
+                <CircularProgress size={50} sx={{ color: '#89343B' }} />
+            </Box>
+        );
+    }
 
     return (
         <Container maxWidth="xl" sx={{ height: 'calc(100vh - 64px)', mt: 2 }}>
