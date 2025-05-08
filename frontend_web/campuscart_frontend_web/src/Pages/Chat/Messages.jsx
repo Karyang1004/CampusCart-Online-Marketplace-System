@@ -23,7 +23,8 @@ import api from '../../config/axiosConfig';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { styled } from '@mui/material/styles';
-
+import { useLoading } from '../../contexts/LoadingContext';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -90,8 +91,12 @@ const Messages = () => {
     const location = useLocation();
     const query = useQuery();
     const currentUser = sessionStorage.getItem('username');
+    const { setLoading } = useLoading();
+    const [isSending, setIsSending] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
+
         if (!currentUser) {
             navigate('/login');
             return;
@@ -105,23 +110,31 @@ const Messages = () => {
         if (productCode && seller) {
             fetchConversation(currentUser, seller, productCode);
         }
+
+        setLoading(false);
     }, [currentUser, location.search]);
 
     const fetchConversations = async () => {
+        setLoading(true);
         try {
             const response = await api.get(`/messages/conversations/${currentUser}`);
             setConversations(response.data);
         } catch (error) {
             console.error('Error fetching conversations:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
     const fetchUnreadCounts = async () => {
+        setLoading(true);
         try {
             const response = await api.get(`/messages/unread/count/${currentUser}`);
             setUnreadCounts(response.data);
         } catch (error) {
             console.error('Error fetching unread counts:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -137,6 +150,7 @@ const Messages = () => {
     };
 
     const fetchConversation = async (username1, username2, productCode = null) => {
+        setLoading(true);
         try {
             console.log('Fetching conversation:', username1, username2, productCode);
             const endpoint = productCode 
@@ -151,11 +165,15 @@ const Messages = () => {
         } catch (error) {
             console.error('Error fetching conversation:', error);
             toast.error('Failed to load conversation');
+        } finally {
+            setLoading(false);
         }
     };
 
     const sendMessage = async () => {
         if (!newMessage.trim() || !selectedConversation) return;
+
+        setIsSending(true);
 
         try {
             const messageData = {
@@ -174,6 +192,8 @@ const Messages = () => {
         } catch (error) {
             console.error('Error sending message:', error);
             toast.error('Failed to send message');
+        } finally {
+            setIsSending(false);
         }
     };
 
@@ -270,7 +290,7 @@ const Messages = () => {
                                         >
                                             {messages[0]?.productImage ? (
                                                 <img
-                                                    src={messages[0]?.productImage}
+                                                    src={`https://campuscart-online-marketplace-system-production.up.railway.app/${messages[0]?.productImage}`}
                                                     alt={messages[0]?.productName}
                                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                                 />
@@ -363,7 +383,11 @@ const Messages = () => {
                                         disabled={!newMessage.trim()}
                                         sx={{ width: 56, height: 56 }}
                                     >
-                                        <SendIcon sx={{ fontSize: 32 }} />
+                                        {isSending ? (
+                                            <CircularProgress size={24} sx={{ color: '#89343B' }} />
+                                        ) : (
+                                            <SendIcon sx={{ fontSize: 32 }} />
+                                        )}
                                     </SendButton>
                                 </Box>
                             </InputContainer>

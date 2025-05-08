@@ -9,6 +9,8 @@ import axios from 'axios';
 import api from '../../config/axiosConfig';
 import SellerReviews from './SellerReviews'; // Import the new component
 import { mockReviews } from './SellerReviews'; // Import mock reviews
+import { useLoading } from '../../contexts/LoadingContext';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const UserProfile = () => {
     const [tabValue, setTabValue] = useState('1');
@@ -20,6 +22,7 @@ const UserProfile = () => {
     const [loading, setLoading] = useState(true);
     const loggedInUser = sessionStorage.getItem('username');
     const navigate = useNavigate();
+    const [photoLoading, setPhotoLoading] = useState(true);
 
     const handleChange = (event, newValue) => {
         setTabValue(newValue);
@@ -59,10 +62,13 @@ const UserProfile = () => {
 
                     if (profilePhoto) {
                         setProfilePhoto(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);
+                    } else {
+                        setPhotoLoading(false);
                     }
                 }
             } catch (error) {
                 console.error('Error fetching user data:', error);
+                setPhotoLoading(false);
             }
         };
 
@@ -101,18 +107,36 @@ const UserProfile = () => {
                 <Grid container spacing={2} alignItems="center" sx={{ position: 'relative', zIndex: 2 }}>
                     <Grid item>
                         <Box sx={{ position: 'relative', width: 100, height: 100 }}>
-                            <Avatar
-                                src={profilePhoto}
-                                alt={username}
-                                sx={{
-                                    width: 100,
-                                    height: 100,
-                                    position: 'absolute',
-                                    top: -10,
-                                    border: '3px solid white',
-                                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-                                }}
-                            />
+                                {photoLoading && (
+                                    <Box
+                                        sx={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            left: '50%',
+                                            transform: 'translate(-50%, -50%)',
+                                            zIndex: 1,
+                                        }}
+                                    >
+                                        <CircularProgress size={40} />
+                                    </Box>
+                                )}
+                                <Avatar
+                                    src={profilePhoto || undefined}
+                                    alt={username}
+                                    onLoad={() => setPhotoLoading(false)}
+                                    onError={() => setPhotoLoading(false)} // to stop loading if image fails
+                                    sx={{
+                                        width: 100,
+                                        height: 100,
+                                        position: 'absolute',
+                                        top: -10,
+                                        border: '3px solid white',
+                                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                                        opacity: photoLoading ? 0 : 1,
+                                        transition: 'opacity 0.3s ease-in-out',
+                                    }}
+                                > {!profilePhoto && username?.charAt(0).toUpperCase()}
+                                </Avatar>
                         </Box>
                     </Grid>
                     <Grid item xs sx={{ textAlign: 'left', marginLeft: 3 }}>
