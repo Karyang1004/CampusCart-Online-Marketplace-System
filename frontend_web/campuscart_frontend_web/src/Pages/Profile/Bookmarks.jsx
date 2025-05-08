@@ -6,6 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from 'axios';
 import api from '../../config/axiosConfig';
 import { useLoading } from '../../contexts/LoadingContext';
+import homepage from '../../assets/img/homepage.jpg';
 
 const Bookmarks = () => {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ const Bookmarks = () => {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundImage: `url('/images/homepage.jpg')`,
+            backgroundImage: `url(${homepage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             zIndex: -2,
@@ -145,13 +146,10 @@ const Bookmarks = () => {
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', margin: '5px', color: 'gray', padding: '10px' }}>
-                <Avatar src={`https://campuscart-online-marketplace-system-production.up.railway.app/${product.sellerProfileImage}`} />
+                <Avatar src={`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${product.userProfileImagePath}`} />
                 <Box sx={{ ml: 1 }}>
                   <Typography variant="subtitle1" color="black" sx={{ lineHeight: 1, mb: 0, fontWeight: 500 }}>
-                    {product.sellerUsername}
-                  </Typography>
-                  <Typography variant="subtitle2" color="gray" sx={{ mt: 0, fontSize: '12px' }}>
-                    2 months ago
+                    {product.userUsername}
                   </Typography>
                 </Box>
               </Box>
