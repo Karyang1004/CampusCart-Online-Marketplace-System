@@ -437,7 +437,7 @@ const UserManagement = () => {
   return (
     <>
       <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
-        <DialogTitle>Confirm Update</DialogTitle>
+        <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
           <Typography>Are you sure you want to delete this user?</Typography>
         </DialogContent>
@@ -450,8 +450,12 @@ const UserManagement = () => {
               setConfirmOpen(false);
               handleUserAction('delete', selectedUser);
             }}
-            color="primary"
             variant="contained"
+            sx={{
+              bgcolor: '#89343b',
+              '&:hover': { bgcolor: '#6d2931' },
+              ml: 2
+            }}
           >
             Confirm
           </Button>

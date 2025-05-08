@@ -60,9 +60,11 @@ const UserProfile = () => {
                     setEmail(email);
 
                     if (profilePhoto) {
-                        setProfilePhoto(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);
-                    } else {
-                        setPhotoLoading(false);
+                        if (profilePhoto.startsWith('http')) {
+                            setProfilePhoto(profilePhoto);
+                        } else {
+                            setProfilePhoto(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);                      
+                        }
                     }
                 }
             } catch (error) {

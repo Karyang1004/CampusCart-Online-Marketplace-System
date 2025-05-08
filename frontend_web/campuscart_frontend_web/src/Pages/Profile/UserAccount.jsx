@@ -312,8 +312,12 @@ const UserAccount = (props) => {
                     setUsername(username);
                     setIsGoogleUser(!!googleId);
 
-                    if (profilePhoto) {
-                        setPreviewImage(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);
+                    if(profilePhoto) {
+                        if (profilePhoto.startsWith('http')) {
+                            setPreviewImage(profilePhoto);
+                        } else {
+                            setPreviewImage(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);
+                        }
                     }
                 }
             } catch (error) {

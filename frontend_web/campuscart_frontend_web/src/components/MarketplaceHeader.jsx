@@ -164,8 +164,12 @@ const MarketplaceHeader = () => {
                 const { profilePhoto } = response.data;
 
                 if (profilePhoto) {
-                    setProfilePhoto(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);
-                }
+                  if (profilePhoto.startsWith('http')) {
+                      setProfilePhoto(profilePhoto);
+                  } else {
+                    setProfilePhoto(`https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${profilePhoto}`);                        
+                    }
+              }
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
