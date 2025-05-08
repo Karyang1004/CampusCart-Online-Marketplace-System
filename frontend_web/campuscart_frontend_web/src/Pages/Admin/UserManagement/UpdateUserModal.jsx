@@ -120,7 +120,7 @@ const UpdateUserModal = ({ open, onClose, user, onSave }) => {
 
     try {
       const role = user.role === 'Admin' ? 'admin' : 'user';
-      const apiUrl = `https://campuscart-online-marketplace-sy-production.up.railway.app/api/admin/updateUserDetails/${role}/${user.username}`;
+      const apiUrl = `https://campuscart-online-marketplace-system-production.up.railway.app/api/admin/updateUserDetails/${role}/${user.username}`;
 
       const updateData = {
         username: user.username,

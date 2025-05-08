@@ -167,7 +167,7 @@ const UserManagement = () => {
       case 'delete':
         try {
           const role = user.role === 'Admin' ? 'admin' : 'seller';
-          const apiUrl = `https://campuscart-online-marketplace-sy-production.up.railway.app/api/admin/deleteUser/${role}/${user.username}`;
+          const apiUrl = `https://campuscart-online-marketplace-system-production.up.railway.app/api/admin/deleteUser/${role}/${user.username}`;
 
           const response = await api.delete(apiUrl);
 
@@ -691,7 +691,7 @@ const UserManagement = () => {
                     <TableCell>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Avatar
-                          src={user.profilePhoto ? `https://campuscart-online-marketplace-system-production.up.railway.app/api/images/profile/${user.profilePhoto}` : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`}
+                          src={user.profilePhoto ? `https://campuscart-online-marketplace-system-production.up.railway.app/uploads/${user.profilePhoto}` : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.username}`}
                           alt={user.username}
                           sx={{ width: 40, height: 40 }}
                         />
