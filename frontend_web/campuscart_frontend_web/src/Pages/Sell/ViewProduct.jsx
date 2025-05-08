@@ -22,7 +22,6 @@ const ViewProduct = () => {
     const [allProducts, setAllProducts] = useState([]);
     const navigate = useNavigate();
     const loggedInUser = sessionStorage.getItem('username');
-    console.log("Logged-in user:", loggedInUser); // ✅ Add this for debugging
 
     useEffect(() => {
         const username = sessionStorage.getItem('username');
@@ -89,7 +88,6 @@ const ViewProduct = () => {
     };
 
     const handleChatRedirect = () => {
-        console.log('Redirecting to chat:', { userUsername, loggedInUser });
         if (userUsername && loggedInUser && userUsername !== loggedInUser) {
             navigate(`/message/${userUsername}`);
         }

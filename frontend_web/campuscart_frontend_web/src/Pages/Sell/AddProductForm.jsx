@@ -57,7 +57,6 @@ const AddProductForm = ({ open, handleClose }) => {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    console.log('Form submitted with image:', imageFile); // Debug log
 
     // Validate negative numbers
     if (Number(price) <= 0) {
@@ -68,7 +67,6 @@ const AddProductForm = ({ open, handleClose }) => {
     if (!productName || !description || !price || !category || !conditionType || !imageFile || !status) {
       if (!imageFile) {
         setImageError(true);
-        console.log('Image file missing'); // Debug log
       }
       toast.error('All fields must be filled in');
       return;
@@ -85,10 +83,8 @@ const AddProductForm = ({ open, handleClose }) => {
     formData.append('user_username', userUsername);
 
     if (imageFile) {
-      console.log('Appending image to formData:', imageFile); // Debug log
       formData.append('image', imageFile);
     } else {
-      console.log('No image file to append'); // Debug log
       setSnackbar({
         open: true,
         message: 'No image selected',
@@ -98,7 +94,6 @@ const AddProductForm = ({ open, handleClose }) => {
     }
 
     try {
-      console.log('Sending formData to backend'); // Debug log
       await api.post('/product/postproduct', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -129,15 +124,12 @@ const AddProductForm = ({ open, handleClose }) => {
   const handleImageChange = (e) => {
     setLoading(true);
     const file = e.target.files[0];
-    console.log('Selected file:', file); // Debug log
     if (file) {
       setImageFile(file);
       setImageError(false);
       const previewUrl = URL.createObjectURL(file);
-      console.log('Preview URL:', previewUrl); // Debug log
       setImagePreview(previewUrl);
     } else {
-      console.log('No file selected'); // Debug log
       setImageError(true);
     }
     setLoading(false);

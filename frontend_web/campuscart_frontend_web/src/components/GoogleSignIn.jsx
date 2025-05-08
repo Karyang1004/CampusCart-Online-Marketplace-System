@@ -35,9 +35,6 @@ const GoogleSignIn = () => {
                 sessionStorage.setItem('lastName', response.data.lastName);
                 sessionStorage.setItem('role', 'USER');
 
-                // Log the stored token for verification
-                console.log('Stored token:', response.data.token);
-
                 toast.success('Successfully logged in with Google!');
                 navigate('/home');
             } else {
@@ -86,7 +83,6 @@ const GoogleSignIn = () => {
                 <GoogleLogin
                     onSuccess={handleGoogleSuccess}
                     onError={() => {
-                        console.log('Login Failed');
                         toast.error('Google login failed');
                     }}
                     theme="outline"

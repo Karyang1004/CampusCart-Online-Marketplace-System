@@ -20,7 +20,6 @@ const SellerView = () => {
   const fetchProductDetails = async () => {
     try {
       const response = await api.get(`/product/getProductByCode/${code}`);
-      console.log("Response: ", response.data);
       setProduct(response.data);
     } catch (error) {
       console.error('Error fetching product details:', error);

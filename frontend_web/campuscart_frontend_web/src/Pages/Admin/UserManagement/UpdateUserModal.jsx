@@ -124,9 +124,6 @@ const UpdateUserModal = ({ open, onClose, user, onSave }) => {
         contactNo: formData.contactNo
       };
 
-      console.log('Sending request to:', apiUrl);
-      console.log('Update data:', updateData);
-
       const response = await api.put(apiUrl, updateData);
 
       if (response.status === 200) {

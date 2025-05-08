@@ -153,12 +153,10 @@ const Messages = () => {
     const fetchConversation = async (username1, username2, productCode = null) => {
         setLoading(true);
         try {
-            console.log('Fetching conversation:', username1, username2, productCode);
             const endpoint = productCode 
                 ? `/messages/conversation/${username1}/${username2}/product/${productCode}`
                 : `/messages/conversation/${username1}/${username2}`;
             const response = await api.get(endpoint);
-            console.log('Fetched messages:', response.data);
             setMessages(response.data);
             setSelectedConversation({ username1, username2, productCode });
             // Mark as read

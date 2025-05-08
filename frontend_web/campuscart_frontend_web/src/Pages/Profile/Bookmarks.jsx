@@ -5,25 +5,27 @@ import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from 'axios';
 import api from '../../config/axiosConfig';
+import { useLoading } from '../../contexts/LoadingContext';
 
 const Bookmarks = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [likedProducts, setLikedProducts] = useState([]);
   const loggedInUser = sessionStorage.getItem('username');
+  const { setLoading } = useLoading();
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
   };
 
   const handleCardClick = (code) => {
-    console.log('Navigating to product:', code);
     navigate(`/product/${code}`);
   };
 
   useEffect(() => {
     const handleLikesUpdated = async () => {
       const likedProductIds = JSON.parse(localStorage.getItem('likedProducts')) || [];
+      setLoading(true);
 
       try {
         const response = await api.get(`/product/getAllProducts/${loggedInUser}`);
@@ -33,6 +35,8 @@ const Bookmarks = () => {
         setLikedProducts(liked);
       } catch (error) {
         console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
       }
     };
 

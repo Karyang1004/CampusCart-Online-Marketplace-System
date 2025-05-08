@@ -156,7 +156,6 @@ const BrowsePage = () => {
 
             try {
                 const response = await api.get(`/product/getAllProducts/${loggedInUser}`);
-                console.log('Products', response.data);
                 if (response.status === 200) {
                     const approvedProducts = response.data.filter(product => product.status && product.status.toLowerCase() === 'approved');
                     console.log('Products with profile photos:', approvedProducts.map(p => ({

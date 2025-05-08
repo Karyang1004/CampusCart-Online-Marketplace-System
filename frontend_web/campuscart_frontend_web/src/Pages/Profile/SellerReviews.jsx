@@ -78,7 +78,6 @@ const SellerReviews = () => {
   const ratingDistribution = [5, 4, 3, 2, 1].map((rating) => {
     const count = mockReviews.filter((review) => Math.floor(review.productQuality) === rating).length;
     const percentage = (count / mockReviews.length) * 100;
-    console.log(`Rating ${rating}: ${count} reviews, ${percentage}%`);
     return {
       rating,
       count,

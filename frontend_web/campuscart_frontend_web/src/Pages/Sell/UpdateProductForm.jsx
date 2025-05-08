@@ -25,7 +25,6 @@ const UpdateProductForm = ({ product, onUpdateSuccess, setProduct }) => {
   const { setLoading } = useLoading();
 
   useEffect(() => {
-    console.log('product passed to form:', product);
     setProductName(product.name || '');
     setDescription(product.pdtDescription || '');
     setPrice(product.buyPrice || '');

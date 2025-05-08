@@ -53,7 +53,6 @@ const UserProfile = () => {
             const username = sessionStorage.getItem('username');
             try {
                 const response = await api.get(`/user/getUserRecord/${username}`);
-                console.log("Response: ", response.data)
                 if (response.status === 200) {
                     const { email, profilePhoto } = response.data;
 

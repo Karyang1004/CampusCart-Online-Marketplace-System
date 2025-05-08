@@ -192,7 +192,6 @@ const AdminSettings = () => {
         const username = sessionStorage.getItem('username');
         try {
             const response = await api.get(`/admin/getAdminRecord/${username}`);
-            console.log(response.data);
             if (response.status === 200) {
                 const { firstName, lastName, email, contactNo, profilePhoto } = response.data;
 

@@ -69,7 +69,6 @@ const ChatPage = () => {
                 }
 
                 if (partnerToSelect && user.username !== partnerToSelect) {
-                    console.log('Attempting to create channel:', user.username, partnerToSelect);
                     let existingChannel = null;
                     if (channelUrlToSelect) {
                         existingChannel = await getChannelByUrl(channelUrlToSelect);
